@@ -15,6 +15,7 @@
 
 package net.adoptium.test;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -122,7 +123,7 @@ public class CudaEnabledTest {
                 BufferedReader prtFileReader = new BufferedReader(new FileReader(prtFile));
                 String oneLine = "";
                 boolean foundCudart = false;
-                while ((oneLine = prtFileReader.readLine()) != null) {
+                while ((oneLine = BoundedLineReader.readLine(prtFileReader, 5_000_000)) != null) {
                     if (oneLine.contains("cudart")) {
                         logger.info("CUDA-enabled indicator string \'cudart\' was found "
                             + "within this j9prt file: " + prtFile);
